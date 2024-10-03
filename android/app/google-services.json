@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "145584327880",
+    "project_id": "nafeesonline-91fe4",
+    "storage_bucket": "nafeesonline-91fe4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145584327880:android:4abfb59865d16f4068a9fd",
+        "android_client_info": {
+          "package_name": "com.trescol.nafeesadmin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfzdxHEYkjap6_kCI31jvaEvP1MMIoIDI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
