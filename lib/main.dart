@@ -1,76 +1,52 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:nafees_admin_app/fireBaseApi.dart';
-import 'package:nafees_admin_app/webViewScreen.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'high_importance_channel', 'High Importance Notifications',
-    importance: Importance.high, playSound: true);
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/auth/auth_bloc.dart';
+import 'package:notes_app/auth/auth_repository.dart';
+import 'package:notes_app/notes/notes_block.dart';
+import 'package:notes_app/notes/notes_repository.dart';
+import 'package:notes_app/screens/login_screen.dart';
+import 'package:notes_app/screens/notes_list_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
-  FirebaseApi().subscribeToTopic("MyAdmin");
-  await FirebaseApi().initNotification();
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin>()
-      ?.requestPermissions(
-        alert: true,
-        badge: true,
-        sound: true,
-      );
-
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class MyApp extends StatelessWidget {
+  final AuthRepository authRepository = AuthRepository();
+  final NotesRepository notesRepository = NotesRepository();
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification!.android;
-
-      if (notification != null && android != null) {
-        flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(channel.id, channel.name,
-                  color: Colors.blue,
-                  playSound: false,
-                  icon: "@mipmap/ic_launcher"),
-              iOS: const DarwinNotificationDetails(),
-            ));
-      }
-    });
-  }
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Nafees Admin App",
-      home: FullScreenWebView(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthBloc>(
+          create: (_) => AuthBloc(authRepository: authRepository),
+        ),
+        BlocProvider<NotesBloc>(
+          create: (_) => NotesBloc(notesRepository: notesRepository),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Notes App',
+        home: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            if (state is Authenticated) {
+              return const NotesListScreen();
+            } else if (state is Unauthenticated || state is AuthInitial) {
+              return LoginScreen();
+            } else if (state is AuthError) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(state.message)));
+            }
+            return const CircularProgressIndicator();
+          },
+        ),
+      ),
     );
   }
 }

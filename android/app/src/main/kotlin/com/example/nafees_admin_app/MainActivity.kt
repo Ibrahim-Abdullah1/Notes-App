@@ -1,4 +1,4 @@
-package com.trescol.nafeesadmin
+package com.example.notes_app
 
 import io.flutter.embedding.android.FlutterActivity
 

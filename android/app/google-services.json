@@ -1,26 +1,44 @@
 {
   "project_info": {
-    "project_number": "145584327880",
-    "project_id": "nafeesonline-91fe4",
-    "storage_bucket": "nafeesonline-91fe4.appspot.com"
+    "project_number": "746724315666",
+    "project_id": "notes-app-88af1",
+    "storage_bucket": "notes-app-88af1.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:145584327880:android:4abfb59865d16f4068a9fd",
+        "mobilesdk_app_id": "1:746724315666:android:2d290777f670c9e78f3ecb",
         "android_client_info": {
-          "package_name": "com.trescol.nafeesadmin"
+          "package_name": "com.example.notes_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "746724315666-nj811h5lom35ah2p54o2g7s1luvr2pk4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.notes_app",
+            "certificate_hash": "4e40a640063e4b9fc2ebfb9872cbfa6f27a20bd2"
+          }
+        },
+        {
+          "client_id": "746724315666-lh5ignr92jntbf92sa0ssh54iehkggiv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyDfzdxHEYkjap6_kCI31jvaEvP1MMIoIDI"
+          "current_key": "AIzaSyAjqy2BZzCVgZ_LAD_S7aWWwarsKU1FFwo"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "746724315666-lh5ignr92jntbf92sa0ssh54iehkggiv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
