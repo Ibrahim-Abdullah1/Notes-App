@@ -67,6 +67,8 @@ class _NotesListScreenState extends State<NotesListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight=MediaQuery.of(context).size.height;
+    final double screenWidth=MediaQuery.of(context).size.width;
     context.read<NotesBloc>().add(LoadNotes());
 
     return Scaffold(
@@ -135,66 +137,69 @@ class _NotesListScreenState extends State<NotesListScreen> {
                       const SnackBar(content: Text('Note deleted')),
                     );
                   },
-                  child: Stack(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => NoteDetailScreen(note: note),
-                            ),
-                          );
-                        },
-                        child: Card(
-                          elevation: 2,
-                          margin: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  note.title,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                  child: Container(
+                    width: screenWidth,
+                    child: Stack(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => NoteDetailScreen(note: note),
+                              ),
+                            );
+                          },
+                          child: Card(
+                            elevation: 2,
+                            margin: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    note.title,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 8.0),
-                                Text(
-                                  note.body.length > 100
-                                      ? '${note.body.substring(0, 100)}...'
-                                      : note.body,
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                              ],
+                                  const SizedBox(height: 8.0),
+                                  Text(
+                                    note.body.length > 100
+                                        ? '${note.body.substring(0, 100)}...'
+                                        : note.body,
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Positioned(
-                        top: 8,
-                        right: 8,
-                        child: Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.edit,
-                                  color: Colors.blueAccent),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) =>
-                                        AddEditNoteScreen(note: note),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
+                        Positioned(
+                          top: 8,
+                          right: 8,
+                          child: Row(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.edit,
+                                    color: Colors.blueAccent),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          AddEditNoteScreen(note: note),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               },
@@ -205,14 +210,22 @@ class _NotesListScreenState extends State<NotesListScreen> {
           return Container();
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
+      floatingActionButton: GestureDetector(
+        onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (_) => AddEditNoteScreen()),
           );
         },
-        child: const Icon(Icons.add),
+        child: Container(
+          height: 100,
+          width: 60,
+          decoration: const BoxDecoration(
+              shape: BoxShape.circle, color: Colors.blueAccent),
+          child: const Center(
+            child: Icon(Icons.add),
+          ),
+        ),
       ),
     );
   }
