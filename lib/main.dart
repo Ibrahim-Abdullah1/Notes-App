@@ -1,12 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes_app/auth/auth_bloc.dart';
-import 'package:notes_app/auth/auth_repository.dart';
-import 'package:notes_app/notes/notes_block.dart';
-import 'package:notes_app/notes/notes_repository.dart';
-import 'package:notes_app/screens/login_screen.dart';
-import 'package:notes_app/screens/notes_list_screen.dart';
+import 'package:notes_app/bloc/auth_bloc/auth_bloc.dart';
+import 'package:notes_app/data/repository/auth_repository.dart';
+import 'package:notes_app/bloc/auth_bloc/auth_state.dart';
+import 'package:notes_app/bloc/notes_bloc/notes_bloc.dart';
+import 'package:notes_app/data/repository/notes_repository.dart';
+import 'package:notes_app/View/screens/auth/login_screen.dart';
+import 'package:notes_app/View/screens/notes/notes_list_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +42,9 @@ class MyApp extends StatelessWidget {
             } else if (state is Unauthenticated || state is AuthInitial) {
               return LoginScreen();
             } else if (state is AuthError) {
+              if (kDebugMode) {
+                print(state.message);
+              }
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(state.message)));
             }

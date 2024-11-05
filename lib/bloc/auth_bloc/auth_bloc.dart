@@ -1,32 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'auth_repository.dart';
-
-abstract class AuthEvent {}
-
-class AppStarted extends AuthEvent {}
-
-class GoogleSignInRequested extends AuthEvent {}
-
-class AppleSignInRequested extends AuthEvent {}
-
-class SignOutRequested extends AuthEvent {}
-
-abstract class AuthState {}
-
-class AuthInitial extends AuthState {}
-
-class Authenticated extends AuthState {
-  final User user;
-  Authenticated({required this.user});
-}
-
-class Unauthenticated extends AuthState {}
-
-class AuthError extends AuthState {
-  final String message;
-  AuthError({required this.message});
-}
+import 'package:notes_app/bloc/auth_bloc/auth_event.dart';
+import 'package:notes_app/bloc/auth_bloc/auth_state.dart';
+import '../../data/repository/auth_repository.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository authRepository;
